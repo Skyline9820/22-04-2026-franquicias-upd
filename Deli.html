@@ -76,8 +76,8 @@
         .nav-logo-wrapper:hover { transform: scale(1.05); }
         .nav-logo { height: 35px !important; width: auto !important; display: block; object-fit: contain; filter: brightness(0) invert(1); }
         
-        .btn-back { color: var(--deli-dark-green); text-decoration: none; font-family: var(--font-heading); font-size: 1rem; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; transition: transform 0.3s, color 0.3s; font-weight: 700;}
-        .btn-back:hover { color: var(--deli-med-green); transform: translateX(-10px); }
+        .btn-back { text-decoration: none; display: flex; align-items: center; gap: 10px; transition: transform 0.3s; }
+        .btn-back:hover { transform: translateX(-10px); }
 
         /* HERO */
         .hero-product { height: 100vh; width: 100%; display: flex; align-items: center; justify-content: center; position: relative; background-color: var(--deli-dark-green); overflow: hidden; flex-direction: column; }
@@ -416,7 +416,9 @@
     <div id="deli-barras-wrapper">
 
         <nav>
-            <a href="index.html#productos" class="btn-back">← VOLVER AL INICIO</a>
+            <a href="index.html" class="btn-back" aria-label="Volver al inicio">
+                <img src="tu-imagen-aqui.png" alt="Volver al inicio" style="height: 35px; width: auto; object-fit: contain;">
+            </a>
             <div class="nav-logo-wrapper">
                 <img src="https://mangobc.com/wp-content/uploads/2026/03/Logos-Vectorizados.png" alt="Mango BC" class="nav-logo" decoding="async">
             </div>
@@ -444,7 +446,7 @@
             </div>
         </section>
 
-        <div class="yellow-marquee">    
+        <div class="yellow-marquee">   
             <div class="marquee-text">
                 LA BARRA MÁS DELI • 120 GRAMOS DE ENERGÍA • MÁS ENERGÍA • NATURAL, PRÁCTICA Y DELICIOSA • NUTRE TU DÍA, SIN COMPLICACIONES • 
                 LA BARRA MÁS DELI • 120 GRAMOS DE ENERGÍA • MÁS ENERGÍA • NATURAL, PRÁCTICA Y DELICIOSA • NUTRE TU DÍA, SIN COMPLICACIONES •
@@ -490,7 +492,7 @@
                     </div>
                     <div class="promo-item">
                         <div class="css-icon-wrapper">
-                            <svg viewBox="0 0 24 24"><path d="M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3zm7 17H5V8h14v12zm-7-8c-1.66 0-3-1.34-3-3H7c0 2.76 2.24 5 5 5s5-2.24 5-5h-2c0 1.66-1.34 3-3 3z"/></svg>
+                            <svg viewBox="0 0 24 24"><path d="M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-7-3c1.66 0 3 1.34 3-3H9c0-1.66 1.34-3 3-3zm7 17H5V8h14v12zm-7-8c-1.66 0-3-1.34-3-3H7c0 2.76 2.24 5 5 5s5-2.24 5-5h-2c0 1.66-1.34 3-3 3z"/></svg>
                         </div>
                         <h4>Exhibidores<br>incluidos.</h4>
                     </div>
