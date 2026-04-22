@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Invierte en un modelo de negocio listo para operar con las franquicias de Mango BC y Hot Rolls.">
+    <meta name="theme-color" content="#FFD72E">
+    
+    <title>Franquicias | Mango BC & Hot Rolls</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Montserrat:wght@400;700;800;900&family=Open+Sans:wght@300;400;600;700;900&family=Pacifico&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* COLORIMETRÍA CORPORATIVA (MANGO BC INDEX) */
+            --mango-corp: #fdea14; 
+            --dark-corp: #1C1C1C;  
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.3);
+
+            /* COLORIMETRÍA OFICIAL HOT ROLLS */
+            --sea-green: #2BBF65;
+            --sunglow: #FFD72E;
+            --orioles-orange: #FF511B;
+            --dark-spring-green: #196D49;
+            --beige: #F6EFDB;
+            --phthalo-green: #0C2D1E;
+            --black: #000000;
+            --white: #FFFFFF;
+
+            /* Alias de diseño Hot Rolls */
+            --mango: var(--sunglow); 
+            --hr-green: var(--sea-green); 
+            --hr-orange: var(--orioles-orange); 
+            --dark: var(--black); 
+            --light-bg: var(--beige); 
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { scroll-behavior: smooth; overflow-x: hidden; width: 100%; max-width: 100vw; }
+        
+        @keyframes moveBg { 0% { background-position: 0 0; } 100% { background-position: 40px 40px; } }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--dark);
+            font-family: 'Open Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background-image: radial-gradient(var(--phthalo-green) 5%, transparent 5%);
+            background-size: 20px 20px;
+            background-attachment: fixed;
+            animation: moveBg 10s linear infinite;
+        }
+
+        h1, h2, h3, h4, .bebas-style { 
+            font-family: 'Montserrat', sans-serif; 
+            font-weight: 900; 
+            letter-spacing: -2px; 
+            line-height: 0.95;
+        }
+        
+        .script-style {
+            font-family: 'Pacifico', cursive;
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: 1px;
+            transform: rotate(-5deg);
+            display: inline-block;
+        }
+
+        .comic-text-shadow {
+            text-shadow: 
+                -1.5px -1.5px 0 var(--dark), 1.5px -1.5px 0 var(--dark), -1.5px 1.5px 0 var(--dark), 1.5px 1.5px 0 var(--dark),
+                4px 4px 0px var(--dark), 8px 8px 0px var(--hr-orange);
+        }
+
+        .hazard-tape {
+            background: repeating-linear-gradient(-45deg, var(--mango), var(--mango) 20px, var(--dark) 20px, var(--dark) 40px);
+            height: 25px;
+            width: 120%;
+            margin-left: -10%;
+            transform: rotate(2deg);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+            z-index: 5;
+            position: relative;
+            border-top: 3px solid var(--white);
+            border-bottom: 3px solid var(--white);
+        }
+
+        /* Animaciones Globales */
+        @keyframes speedLines { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+        @keyframes pulseBg { 0% { transform: translate(-50%, -50%) scale(1); } 100% { transform: translate(-50%, -50%) scale(1.1); } }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        @keyframes pop-heartbeat { 0% { transform: scale(1); } 15% { transform: scale(1.05) rotate(2deg); } 30% { transform: scale(1); } 45% { transform: scale(1.05) rotate(-2deg); } 60% { transform: scale(1); } 100% { transform: scale(1); } }
+        
+        @keyframes crazySticker { 
+            0%, 100% { transform: translateY(0px) rotate(-5deg) scale(1); } 
+            50% { transform: translateY(-15px) rotate(10deg) scale(1.1); } 
+        }
+
+        .reveal { opacity: 0; transform: translateY(40px) scale(0.9) rotate(-3deg); transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); will-change: opacity, transform; }
+        .reveal.active { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+        .delay-1 { transition-delay: 0.1s; } .delay-2 { transition-delay: 0.2s; }
+
+        @keyframes popWord { 0%, 100% { transform: scale(1) rotate(0deg); color: inherit; } 50% { transform: scale(1.15) rotate(-4deg); color: var(--white); text-shadow: 2px 2px 0 var(--dark); } }
+        .animate-pop-text { display: inline-block; animation: popWord 1.5s infinite; }
+
+        /* STICKERS */
+        .sticker-spot {
+            position: absolute; z-index: 20; display: flex; align-items: center; justify-content: center;
+            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.6)); pointer-events: none; 
+            width: clamp(70px, 8vw, 110px); height: clamp(70px, 8vw, 110px);
+        }
+        .sticker-spot img { width: 100%; height: 100%; object-fit: contain; animation: crazySticker 2.5s ease-in-out infinite alternate; }
+
+        .stk-hero-top-right { top: 10%; right: 5%; transform: scale(1.2); }
+        .stk-hero-bottom-left { bottom: 15%; left: 5%; transform: scale(1.1); }
+        .stk-metodo-center { bottom: 0px; left: 40%; transform: scale(1.1) rotate(15deg); }
+        .stk-qh-card { top: -25px; right: -20px; transform: rotate(35deg); } 
+        .stk-hotrolls-impact { top: -30px; left: -30px; transform: scale(1.2); }
+        .stk-gal-queso { top: -15px; left: -15px; transform: scale(1); }
+        .stk-op-card { bottom: -15px; right: -15px; transform: scale(1.1); } 
+        .stk-gal-local { bottom: -15px; right: -15px; transform: scale(1.1) rotate(10deg); }
+        .stk-expansion-box { bottom: -15px; right: -15px; transform: scale(1.1); }
+        .stk-infra-lab { top: -30px; left: -20px; transform: scale(1.1); } 
+
+        /* =========================================================
+           NAVEGACIÓN DUAL (CORPORATIVO -> FRANQUICIA)
+           ========================================================= */
+        nav {
+            position: fixed;
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* 1. ESTILO CORPORATIVO (INDEX) */
+        nav.nav-corporate {
+            width: 90%; 
+            max-width: 1800px;
+            top: 20px; 
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px; 
+            background: var(--glass-bg); 
+            backdrop-filter: blur(16px); 
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border); 
+            border-radius: 100px;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+        }
+        nav.nav-corporate .nav-links a { color: var(--dark-corp); font-weight: 600; font-size: 0.85rem; text-transform: none; font-family: 'Open Sans', sans-serif; letter-spacing: 0; padding: 5px;}
+        nav.nav-corporate .nav-links a:hover { color: #888; transform: none; background: transparent;}
+        nav.nav-corporate .nav-cta { background: var(--dark-corp); color: var(--white) !important; padding: 10px 24px; border-radius: 50px; border: none; box-shadow: none; animation: none;}
+        nav.nav-corporate .nav-cta:hover { background: var(--mango-corp); color: var(--dark-corp) !important; transform: none; }
+        nav.nav-corporate .logo img { height: 35px; width: auto; object-fit: contain; filter: none; }
+
+        /* 2. ESTILO FRANQUICIA HOT ROLLS */
+        nav.nav-franchise {
+            width: 96%; top: 10px; left: 2%; transform: translateX(0); padding: 8px 25px; 
+            background: var(--white);
+            border: 4px solid var(--dark); 
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 5px 5px 0px var(--dark); 
+            border-radius: 0;
+        }
+        nav.nav-franchise .nav-links a { color: var(--dark); font-weight: 900; font-size: 1rem; text-transform: uppercase; letter-spacing: -0.5px; font-family: 'Montserrat', sans-serif; padding: 5px;}
+        nav.nav-franchise .nav-links a:hover { color: var(--white); background: var(--dark); transform: scale(1.05) rotate(2deg); }
+        nav.nav-franchise .nav-cta { background: var(--mango); border: 3px solid var(--dark); padding: 5px 20px; display: flex; align-items: center; justify-content: center; box-shadow: 3px 3px 0px var(--dark); animation: navCtaPulse 2s infinite; border-radius: 0;}
+        nav.nav-franchise .nav-cta:hover { animation: none !important; background: var(--hr-orange); transform: scale(1.1) rotate(-3deg); box-shadow: 5px 5px 0px var(--dark); color: inherit !important;}
+        nav.nav-franchise .nav-cta img { height: 35px; filter: drop-shadow(2px 2px 0px var(--dark)); }
+        nav.nav-franchise .logo img { height: 35px; width: auto; object-fit: contain; }
+
+        .nav-links { display: flex; gap: 25px; align-items: center; }
+        .nav-links a { text-decoration: none; transition: 0.2s; }
+
+        @keyframes navCtaPulse { 0%, 100% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.05) rotate(-2deg); box-shadow: 6px 6px 0px var(--dark); } }
+
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1002; padding: 6px;}
+        .hamburger span { width: 30px; height: 4px; background-color: var(--dark); transition: 0.3s; }
+
+        /* BOTONES GLOBALES ANIMADOS HOT ROLLS */
+        @keyframes crazyButton { 0%, 100% { transform: rotate(-1deg) scale(1); } 50% { transform: rotate(2deg) scale(1.03); } }
+        .btn-mango { 
+            background: var(--mango); color: var(--dark); padding: 15px 35px; font-family: 'Montserrat'; font-weight: 900; text-decoration: none; text-transform: uppercase; font-size: 1.2rem; transition: 0.2s; box-shadow: 6px 6px 0px var(--dark); display: inline-block; text-align: center; border: 4px solid var(--dark); cursor: pointer; letter-spacing: 1px;
+            animation: crazyButton 1.5s ease-in-out infinite;
+        }
+        .btn-mango:hover { animation: none !important; transform: translateY(-5px) scale(1.1) rotate(3deg); box-shadow: 10px 10px 0px var(--hr-green), 15px 15px 0px var(--dark); background: var(--white); color: var(--dark); }
+
+        /* =========================================
+           CLASE MAESTRA 100VH 
+           ========================================= */
+        .section-100vh {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 5% 40px 5%;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 10px solid var(--dark);
+            width: 100%;
+        }
+
+        .container-inner { width: 100%; max-width: 1500px; margin: 0 auto; }
+
+        /* =========================================
+           HERO CORPORATIVO (ESTILO INDEX)
+           ========================================= */
+        .hero-corp { 
+            height: 100vh; 
+            min-height: 700px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            position: relative; 
+            overflow: hidden; 
+            border-bottom: 10px solid var(--dark);
+        }
+        .hero-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(28,28,28,0.9) 0%, rgba(28,28,28,0.6) 100%); z-index: -1; }
+        
+        .hero-content-corp { text-align: center; z-index: 1; max-width: 1000px; padding: 0 5%; display: flex; flex-direction: column; align-items: center;}
+        
+        .hero-content-corp h1 { font-family: 'Montserrat', sans-serif; font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 900; color: var(--white); margin-bottom: 20px; text-transform: uppercase; line-height: 1.1; }
+        .hero-content-corp h1 span { color: var(--mango-corp); }
+        .hero-content-corp p { font-size: 1.2rem; color: #CCC; max-width: 750px; margin: 0 auto 40px auto; line-height: 1.8; font-family: 'Open Sans', sans-serif; font-weight: 400;}
+        
+        .btn-corp { background: var(--mango-corp); color: var(--dark-corp); padding: 18px 40px; border-radius: 50px; font-family: 'Montserrat'; font-weight: 700; text-decoration: none; text-transform: uppercase; font-size: 0.85rem; transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s; box-shadow: 0 10px 20px rgba(253, 234, 20, 0.3); display: inline-block; text-align: center; border: none;}
+        .btn-corp:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(253, 234, 20, 0.5); background: var(--white); }
+
+        /* METODOLOGÍA - 100VH */
+        .que-hacemos { background: var(--mango); text-align: center; z-index: 2; background-image: radial-gradient(rgba(0,0,0,0.1) 15%, transparent 15%); background-size: 25px 25px;}
+        .qh-title { font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--white); text-shadow: 4px 4px 0px var(--dark), 8px 8px 0px var(--hr-green); transform: rotate(-2deg); margin-bottom: 50px; line-height: 0.9;}
+        
+        @keyframes cardFloat1 { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-8px) rotate(1deg) scale(1.02); } }
+        @keyframes cardFloat2 { 0%, 100% { transform: translateY(15px) rotate(1deg); } 50% { transform: translateY(5px) rotate(-1deg) scale(1.02); } }
+        @keyframes cardFloat3 { 0%, 100% { transform: translateY(-10px) rotate(-2deg); } 50% { transform: translateY(-18px) rotate(1deg) scale(1.02); } }
+        @keyframes cardFloat4 { 0%, 100% { transform: translateY(10px) rotate(2deg); } 50% { transform: translateY(0px) rotate(-1deg) scale(1.02); } }
+
+        .qh-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; width: 100%;}
+        .qh-card { background: var(--white); border: 4px solid var(--dark); padding: 35px 20px 25px; box-shadow: 8px 8px 0px var(--dark); transition: 0.3s; position: relative; z-index: 1; animation: cardFloat1 3s ease-in-out infinite; }
+        .qh-card:nth-child(2) { background: var(--light-bg); animation: cardFloat2 3.2s ease-in-out infinite; }
+        .qh-card:nth-child(3) { background: var(--white); animation: cardFloat3 2.8s ease-in-out infinite; }
+        .qh-card:nth-child(4) { background: var(--light-bg); animation: cardFloat4 3.5s ease-in-out infinite; }
+        
+        .qh-card:hover { animation: none !important; transform: scale(1.1) rotate(0deg) translateY(-15px) !important; z-index: 10; box-shadow: 15px 15px 0px var(--hr-orange); }
+
+        .qh-icon { width: 60px; height: 60px; background: var(--mango); border: 4px solid var(--dark); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; font-family: 'Montserrat'; font-weight: 900; margin-bottom: 15px; color: var(--dark); box-shadow: 4px 4px 0px var(--dark); position: absolute; top: -30px; left: -15px; transform: rotate(-10deg);}
+        .qh-card h3 { font-size: clamp(1.2rem, 2vw, 1.6rem); margin-top: 15px; margin-bottom: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: -1px;}
+        .qh-card p { font-size: clamp(0.9rem, 1.2vw, 1.1rem); line-height: 1.5; font-weight: 700;}
+
+        /* EXPLOSIÓN POP - 100VH */
+        .explosive-section { background-color: var(--sunglow); z-index: 1;}
+        .burst-bg { position: absolute; top: -50vmax; left: -50vmax; width: 200vmax; height: 200vmax; background: repeating-conic-gradient( var(--sunglow) 0 10deg, #FFC107 10deg 20deg ); animation: spin 30s linear infinite; z-index: 0; }
+        .burst-vignette { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.4) 100%); z-index: 1; }
+
+        .explosive-content { position: relative; z-index: 2; text-align: center; width: 100%; max-width: 900px; }
+        .explosive-logo { width: 100%; max-width: 500px; filter: drop-shadow(10px 10px 0px var(--dark)); animation: pop-heartbeat 1.5s infinite;}
+        .explosive-title { color: var(--white); font-size: clamp(2.5rem, 6vw, 4.5rem); text-transform: uppercase; text-shadow: 5px 5px 0px var(--dark), -3px -3px 0px var(--hr-green); line-height: 1; margin-top: 25px; transform: rotate(-2deg); }
+
+        /* GALERÍA CÓMIC - 100VH */
+        .product-gallery-section { background-color: var(--white); background-image: repeating-linear-gradient(45deg, rgba(255, 215, 46, 0.1) 0px, rgba(255, 215, 46, 0.1) 10px, transparent 10px, transparent 20px); z-index: 1;}
+        
+        .gallery-container { width: 100%; max-width: 1500px; text-align: center; z-index: 2;}
+        .gal-intro-text { background: var(--dark); border: 4px solid var(--dark); color: var(--mango); padding: 15px 30px; transform: rotate(-2deg); box-shadow: 8px 8px 0px var(--hr-orange); display: inline-block; font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; text-transform: uppercase; letter-spacing: -1px; margin-bottom: 4vh; }
+
+        .gal-grid-local-wrapper { display: flex; flex-direction: column; gap: 4vh; align-items: center; width: 100%;}
+        .gal-two-col { display: grid; grid-template-columns: 1.2fr 1.8fr; gap: 30px; align-items: center; text-align: left; width: 100%;}
+        .gal-two-col.reverse { grid-template-columns: 1.8fr 1.2fr; }
+
+        .gal-panel { position: relative; transform: rotate(0deg); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); width: 100%; cursor: pointer;}
+        .gal-panel.rotate-left { transform: rotate(-2deg); }
+        .gal-panel.rotate-right { transform: rotate(2deg); }
+        .gal-panel:hover { transform: scale(1.05) rotate(0deg); z-index: 20; }
+
+        .gal-img { width: 100%; max-height: 24vh; border: 6px solid var(--dark); box-shadow: 8px 8px 0px rgba(0,0,0,0.8); object-fit: cover; object-position: center;}
+
+        @keyframes tagWiggle { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1) rotate(5deg); } }
+        .gal-burst-text { position: absolute; background: var(--white); color: var(--dark); border: 3px solid var(--dark); padding: 8px 15px; font-weight: 900; font-family: 'Montserrat'; font-size: clamp(0.8rem, 1.5vw, 1.2rem); text-transform: uppercase; transform: rotate(-3deg); box-shadow: 5px 5px 0px var(--dark); z-index: 10; white-space: nowrap; animation: tagWiggle 2s infinite; }
+        .b-t-cheese { top: -15px; right: -15px; transform: rotate(5deg); animation-delay: 0.2s;}
+        .b-t-pepperoni { bottom: -15px; left: -15px; transform: rotate(-5deg); background: var(--hr-orange); color: var(--white); animation-delay: 0.5s; }
+        .b-t-kiosko { top: -15px; right: -15px; transform: rotate(10deg); background: var(--mango); animation-delay: 0.8s;}
+        
+        .gal-desc { margin: 0; padding: 0 15px;}
+        .gal-desc h3 { font-size: clamp(1.8rem, 3.5vw, 2.5rem); text-transform: uppercase; text-shadow: 2px 2px 0px var(--white); margin-bottom: 10px; line-height: 1;}
+        .gal-desc p { font-size: clamp(1.1rem, 2vw, 1.3rem); color: #333; line-height: 1.4; font-weight: 700; border-right: 4px solid var(--hr-orange); padding-right: 15px; margin: 0;}
+
+        /* HOT ROLLS DETALLE - 100VH */
+        .hot-rolls-section { background-color: var(--hr-green); background-image: radial-gradient(rgba(0,0,0,0.15) 20%, transparent 20%); background-size: 20px 20px; z-index: 1; }
+        .hr-marquee-wrap { position: absolute; top: 0; width: 120%; left: -10%; height: 50px; background: var(--white); display: flex; align-items: center; overflow: hidden; z-index: 0; box-shadow: 0 6px 0px rgba(0,0,0,0.5); transform: rotate(2deg); border-bottom: 4px solid var(--dark);}
+        .hr-marquee-content { display: flex; width: max-content; animation: marquee 20s linear infinite; }
+        .hr-marquee-content span { font-weight: 900; font-size: 1.5rem; text-transform: uppercase; color: var(--dark); padding: 0 20px; letter-spacing: 2px; }
+        
+        .hr-container { width: 100%; display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: center; z-index: 2;}
+        .hr-text { background: var(--white); padding: 30px; border: 4px solid var(--dark); box-shadow: 8px 8px 0px var(--dark); transform: rotate(-1deg); transition: 0.3s; }
+        .hr-text:hover { transform: scale(1.02) rotate(0deg); box-shadow: 12px 12px 0px var(--dark); }
+        .hr-logo-title { display: block; width: 100%; max-width: 250px; margin-bottom: 15px; filter: drop-shadow(4px 4px 0px var(--dark)); transform: scale(1.05) rotate(-3deg) translateY(-20px);}
+
+        .hr-text h3 { color: var(--dark); font-size: clamp(1.8rem, 3.5vw, 2.5rem); text-transform: uppercase; line-height: 1; margin-bottom: 15px; text-shadow: 3px 3px 0px var(--mango);}
+        .hr-dark-box { background: var(--dark); color: var(--mango); padding: 15px; border: 3px dashed var(--mango); margin-bottom: 20px; box-shadow: 5px 5px 0px var(--hr-orange); }
+        .hr-dark-box p { font-size: clamp(1rem, 1.5vw, 1.2rem); font-weight: 900; line-height: 1.4; margin: 0; text-transform: uppercase;}
+        .hr-text p.hr-desc { color: #333; font-size: clamp(0.9rem, 1.2vw, 1.1rem); line-height: 1.5; margin-bottom: 25px; font-weight: 700; border-left: 4px solid var(--hr-orange); padding-left: 15px;}
+
+        .hr-stats-wrapper { position: relative; }
+        .hr-spinning-badge { position: absolute; top: -50px; right: -30px; width: 120px; height: 120px; background: var(--mango); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.9rem; text-align: center; color: var(--dark); text-transform: uppercase; animation: spin 12s linear infinite; box-shadow: 6px 6px 0px var(--dark); z-index: 10; border: 4px dashed var(--dark); line-height: 1;}
+
+        @keyframes statWiggle1 { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg) scale(1.03); } }
+        @keyframes statWiggle2 { 0%, 100% { transform: rotate(3deg) translateY(15px); } 50% { transform: rotate(-1deg) translateY(5px) scale(1.03); } }
+        @keyframes statWiggle3 { 0%, 100% { transform: rotate(2deg); } 50% { transform: rotate(-2deg) scale(1.03); } }
+        @keyframes statWiggle4 { 0%, 100% { transform: rotate(-3deg) translateY(-10px); } 50% { transform: rotate(1deg) translateY(-20px) scale(1.03); } }
+
+        .hr-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .hr-stat-box { border: 4px solid var(--dark); padding: 25px 15px; box-shadow: 8px 8px 0px var(--dark); text-align: center; transition: 0.3s; }
+        .hr-stat-box.box-yellow-1 { background: var(--mango); animation: statWiggle1 2.5s infinite; }
+        .hr-stat-box.box-white-1 { background: var(--white); animation: statWiggle2 3s infinite; }
+        .hr-stat-box.box-yellow-2 { background: var(--hr-orange); animation: statWiggle3 2.8s infinite; }
+        .hr-stat-box.box-white-2 { background: var(--white); animation: statWiggle4 2.6s infinite; }
+        
+        .hr-stat-box:hover { animation: none !important; transform: scale(1.15) rotate(0deg) !important; z-index: 20; box-shadow: 15px 15px 0px var(--dark); }
+
+        .hr-stat-box h4 { color: var(--dark); font-size: clamp(2.5rem, 4.5vw, 3.5rem); font-weight: 900; margin-bottom: 5px; line-height: 1; letter-spacing: -2px; text-shadow: 2px 2px 0px var(--white);}
+        .hr-stat-box p { color: var(--dark); font-size: clamp(0.9rem, 1.2vw, 1.1rem); font-weight: 900; text-transform: uppercase; margin: 0; }
+
+        /* OPERACIÓN - 100VH */
+        .hr-operation-section { 
+            background-color: var(--dark-spring-green); 
+            background-image: url('fondohotverde.jpg'); 
+            background-size: cover; background-position: center; background-blend-mode: multiply; z-index: 2; text-align: center;
+        }
+        .op-title { font-size: clamp(3.5rem, 7vw, 5.5rem); font-weight: 900; color: var(--white); text-transform: uppercase; letter-spacing: -2px; margin-bottom: 15px; text-shadow: 6px 6px 0px var(--dark); transform: rotate(-2deg); line-height: 0.9;}
+        .op-title span { color: var(--mango); display: block; text-shadow: 6px 6px 0px var(--dark);} 
+        .op-desc { color: var(--white); background: var(--dark); display: inline-block; padding: 10px 20px; font-size: clamp(1.2rem, 2vw, 1.5rem); max-width: 900px; margin: 0 auto 40px; line-height: 1.5; font-weight: 900; text-transform: uppercase; transform: rotate(1deg); border: 4px solid var(--hr-orange);}
+        
+        @keyframes opFloat1 { 0%, 100% { transform: rotate(-1deg); } 50% { transform: rotate(1deg) scale(1.03); box-shadow: 12px 12px 0px var(--hr-orange); } }
+        @keyframes opFloat2 { 0%, 100% { transform: rotate(2deg); } 50% { transform: rotate(-1deg) scale(1.03); box-shadow: 12px 12px 0px var(--phthalo-green); } }
+        @keyframes opFloat3 { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(1deg) scale(1.03); box-shadow: 12px 12px 0px var(--dark); } }
+
+        .op-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; width: 100%;}
+        .op-card { background: var(--white); border: 5px solid var(--mango); padding: 30px 20px; text-align: left; box-shadow: 8px 8px 0px var(--hr-orange); transition: 0.3s; animation: opFloat1 3s infinite;}
+        .op-card:nth-child(2) { border-color: var(--hr-orange); box-shadow: 8px 8px 0px var(--phthalo-green); animation: opFloat2 3.5s infinite;}
+        .op-card:nth-child(3) { box-shadow: 8px 8px 0px var(--dark); animation: opFloat3 3.2s infinite;}
+        
+        .op-card:hover { animation: none !important; transform: scale(1.1) translateY(-15px) rotate(0deg) !important; z-index: 10; box-shadow: 15px 15px 0px var(--mango); }
+
+        .op-card h3 { font-size: clamp(1.6rem, 2.5vw, 2rem); color: var(--dark); font-weight: 900; margin-bottom: 15px; text-transform: uppercase; line-height: 1;}
+        .op-card p { color: var(--dark); font-size: clamp(1rem, 1.5vw, 1.2rem); line-height: 1.5; font-weight: 800;}
+
+        /* =========================================================
+           EXPANSIÓN (MODIFICADO A GRID HORIZONTAL PARA 1 SOLA VISTA)
+           ========================================================= */
+        @keyframes backgroundPopSmooth {
+            0% { background-color: var(--beige); }
+            20% { background-color: rgba(255, 215, 46, 0.2); } 
+            40% { background-color: var(--beige); }
+            60% { background-color: rgba(255, 81, 27, 0.15); } 
+            80% { background-color: rgba(43, 191, 101, 0.15); } 
+            100% { background-color: var(--beige); }
+        }
+
+        .hr-expansion-section-pop {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 20px;
+            z-index: 1;
+            animation: backgroundPopSmooth 40s ease-in-out infinite;
+            border-bottom: 10px solid var(--dark);
+        }
+
+        .epico-chaos-container { width: 100%; max-width: 1400px; position: relative; transform-style: preserve-3d; z-index: 10;}
+
+        @keyframes rainFallSmooth { 0% { top: -10%; } 100% { top: 110%; } }
+        .rain-drop {
+            position: absolute; font-family: 'Bangers', cursive; font-size: 1.5rem; color: rgba(255, 81, 27, 0.12);
+            animation: rainFallSmooth linear infinite; z-index: -1; pointer-events: none; text-transform: uppercase; white-space: nowrap;
+        }
+        .rain-drop::after { content: "HOT ROLLS"; }
+        .drop-1 { left: 5%; animation-duration: 8s; animation-delay: 0s; }
+        .drop-2 { left: 15%; animation-duration: 12s; animation-delay: 1s; font-size: 2rem; color: rgba(43, 191, 101, 0.12); }
+        .drop-3 { left: 25%; animation-duration: 9s; animation-delay: 2s; }
+        .drop-4 { left: 35%; animation-duration: 14s; animation-delay: 3s; font-size: 1rem; color: rgba(255, 215, 46, 0.15); }
+        .drop-5 { left: 45%; animation-duration: 10s; animation-delay: 0.5s; }
+        .drop-6 { left: 55%; animation-duration: 11s; animation-delay: 1.5s; font-size: 2.2rem; }
+        .drop-7 { left: 65%; animation-duration: 13s; animation-delay: 2.5s; color: rgba(43, 191, 101, 0.12); }
+        .drop-8 { left: 75%; animation-duration: 15s; animation-delay: 3.5s; }
+        .drop-9 { left: 85%; animation-duration: 9s; animation-delay: 4.5s; font-size: 1.2rem; color: rgba(255, 215, 46, 0.15); }
+        .drop-10 { left: 95%; animation-duration: 12s; animation-delay: 5s; }
+
+        @keyframes jitterSmooth {
+            0% { transform: translate(1px, 1px) rotate(-1deg); }
+            25% { transform: translate(-1px, 0px) rotate(0deg); }
+            50% { transform: translate(0px, -1px) rotate(-1deg); }
+            75% { transform: translate(-1px, 1px) rotate(0deg); }
+            100% { transform: translate(1px, 1px) rotate(-1deg); }
+        }
+        @keyframes colorPulse { 
+            0% { color: var(--mango); text-shadow: -3px -3px 0 var(--dark), 3px -3px 0 var(--dark), -3px 3px 0 var(--dark), 3px 3px 0 var(--dark), 8px 8px 0px var(--hr-orange), 15px 15px 0px var(--dark); } 
+            50% { color: var(--white); text-shadow: -3px -3px 0 var(--dark), 3px -3px 0 var(--dark), -3px 3px 0 var(--dark), 3px 3px 0 var(--dark), 8px 8px 0px var(--hr-green), 15px 15px 0px var(--dark); } 
+            100% { color: var(--mango); text-shadow: -3px -3px 0 var(--dark), 3px -3px 0 var(--dark), -3px 3px 0 var(--dark), 3px 3px 0 var(--dark), 8px 8px 0px var(--hr-orange), 15px 15px 0px var(--dark); } 
+        }
+
+        .pop-title {
+            font-family: 'Bangers', cursive; font-size: clamp(2.5rem, 5vw, 4.5rem); text-transform: uppercase; text-align: center;
+            margin-bottom: 20px; letter-spacing: 2px; animation: jitterSmooth 0.5s ease-in-out infinite, colorPulse 3s ease-in-out infinite;
+            position: relative; z-index: 10; line-height: 0.9;
+        }
+
+        @keyframes metaTickerSlow { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        
+        .meta-ticker-wrap-pop {
+            background-color: var(--dark); color: var(--white); padding: 10px 0; margin-bottom: 30px;
+            border: 5px solid var(--white); border-left: 20px solid var(--hr-green); border-right: 20px solid var(--mango);
+            transform: skewY(-2deg) rotate(-1deg); white-space: nowrap; overflow: hidden;
+            box-shadow: 10px 10px 0 var(--hr-orange), 15px 15px 0 var(--dark); z-index: 9; position: relative;
+        }
+        .meta-ticker-content-pop { display: inline-block; animation: metaTickerSlow 50s linear infinite; padding-right: 100%; }
+        .meta-ticker-content-pop span { font-size: clamp(1rem, 2.5vw, 1.5rem); font-weight: 900; font-family: 'Montserrat'; text-transform: uppercase; letter-spacing: 1px; margin-right: 40px; }
+
+        /* GRID PARA VISIÓN EN UNA SOLA PANTALLA */
+        .formats-stack { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 20px; 
+            transform-style: preserve-3d; 
+            position: relative; 
+            z-index: 20; 
+        }
+
+        @keyframes expFloat1 { 0%, 100% { transform: skewY(-2deg) rotate(-1deg); } 50% { transform: skewY(-2deg) rotate(0deg) scale(1.02); } }
+        @keyframes expFloat2 { 0%, 100% { transform: skewY(-1deg) rotate(1deg); } 50% { transform: skewY(-1deg) rotate(2deg) scale(1.02); } }
+        @keyframes expFloat3 { 0%, 100% { transform: skewY(-2deg) rotate(-1deg); } 50% { transform: skewY(-2deg) rotate(0deg) scale(1.02); } }
+        @keyframes expFloat4 { 0%, 100% { transform: skewY(1deg) rotate(1deg); } 50% { transform: skewY(1deg) rotate(2deg) scale(1.02); } }
+
+        .format-card-pop {
+            width: 100%; padding: 25px 20px; border: 5px solid var(--dark); box-shadow: 8px 8px 0 var(--dark), 15px 15px 0 var(--hr-orange);
+            position: relative; transform-origin: center; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, z-index 0s;
+        }
+        
+        .format-card-pop:hover { animation: none !important; transform: scale(1.08) rotate(0deg) translateY(-10px) !important; box-shadow: 15px 15px 0 var(--dark), 25px 25px 0 var(--white); z-index: 50 !important; }
+
+        /* Removidos los márgenes negativos para que funcionen bien en el Grid */
+        .pop-kiosko { background-color: var(--mango); animation: expFloat1 4s ease-in-out infinite; z-index: 4; }
+        .pop-foodcourt { background-color: var(--hr-orange); color: var(--white); animation: expFloat2 4.5s ease-in-out infinite; z-index: 3; }
+        .pop-local { background-color: var(--hr-green); color: var(--white); animation: expFloat3 3.8s ease-in-out infinite; z-index: 2; }
+        .pop-masivos { background-color: var(--dark); color: var(--mango); box-shadow: 8px 8px 0 var(--white), 15px 15px 0 var(--hr-green); animation: expFloat4 4.2s ease-in-out infinite; z-index: 1; }
+
+        .pop-card-title { font-size: clamp(1.5rem, 2.5vw, 2.2rem); font-family: 'Montserrat'; font-weight: 900; text-transform: uppercase; margin-bottom: 10px; letter-spacing: -1px; line-height: 1.1; }
+        .pop-kiosko .pop-card-title, .pop-masivos .pop-card-title { text-shadow: 2px 2px 0 var(--white); }
+        .pop-foodcourt .pop-card-title, .pop-local .pop-card-title { text-shadow: 2px 2px 0 var(--dark); }
+
+        @keyframes detailTickerSlow { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .pop-details-ticker-wrap { white-space: nowrap; overflow: hidden; background-color: rgba(0,0,0,0.1); padding: 8px 0; border-top: 3px dashed rgba(0,0,0,0.3); border-bottom: 3px dashed rgba(0,0,0,0.3); font-size: clamp(0.8rem, 1.2vw, 1rem); font-weight: 900; font-family: 'Montserrat'; text-transform: uppercase; }
+        .pop-masivos .pop-details-ticker-wrap { background-color: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); }
+        .pop-details-ticker-content { display: inline-block; animation: detailTickerSlow 40s linear infinite; padding-right: 100%; }
+        .pop-details-ticker-content span { margin-right: 20px; }
+
+        @keyframes popFloatingSmooth { 0%, 100% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0.7; } 50% { transform: translateY(-20px) scale(1.1) rotate(10deg); opacity: 1; } }
+        .pop-sparkle { position: absolute; border-radius: 50%; border: 4px solid var(--dark); box-shadow: 4px 4px 0 var(--dark); animation: popFloatingSmooth 4s ease-in-out infinite; pointer-events: none; z-index: 5; }
+        .sparkle-1 { top: 15%; left: 8%; width: 25px; height: 25px; background-color: var(--mango); animation-delay: 0s; }
+        .sparkle-2 { top: 25%; right: 10%; width: 40px; height: 40px; background-color: var(--hr-orange); animation-delay: 1s; }
+        .sparkle-3 { bottom: 15%; left: 12%; width: 30px; height: 30px; background-color: var(--hr-green); animation-delay: 2s; }
+        .sparkle-4 { bottom: 30%; right: 5%; width: 20px; height: 20px; background-color: var(--white); animation-delay: 1.5s; }
+
+        /* INFRAESTRUCTURA - 100VH */
+        .infra-section { background-color: var(--sunglow); background-image: url('fondohotamarillo.jpg'); background-size: cover; background-position: center; z-index: 2; text-align: center; }
+        .infra-title { font-size: clamp(3.5rem, 7vw, 5.5rem); font-weight: 900; color: var(--white); margin-bottom: 15px; text-transform: uppercase; text-shadow: 5px 5px 0px var(--phthalo-green), -2px -2px 0px var(--dark); line-height: 0.9;}
+        .infra-desc { font-size: clamp(1.2rem, 2vw, 1.5rem); color: var(--phthalo-green); max-width: 800px; margin: 0 auto 40px; line-height: 1.5; font-weight: 900; text-transform: uppercase;}
+        
+        @keyframes infraFloat1 { 0%, 100% { transform: rotate(-1deg); } 50% { transform: rotate(1deg) translateY(-5px) scale(1.02); } }
+        @keyframes infraFloat2 { 0%, 100% { transform: rotate(1deg) translateY(15px); } 50% { transform: rotate(-1deg) translateY(5px) scale(1.02); } }
+
+        .infra-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; width: 100%; }
+        .infra-item { padding: 30px 15px; background: var(--white); border: 4px solid var(--dark); box-shadow: 6px 6px 0px var(--phthalo-green); transition: 0.3s; animation: infraFloat1 3s infinite;}
+        .infra-item:nth-child(even) { background: var(--hr-orange); box-shadow: 6px 6px 0px var(--dark); animation: infraFloat2 3.5s infinite;}
+        
+        .infra-item:hover { animation: none !important; transform: scale(1.15) rotate(0deg) translateY(-10px) !important; z-index: 10; box-shadow: 12px 12px 0px var(--dark); }
+
+        .infra-item h3 { font-size: clamp(3rem, 5vw, 4.5rem); color: var(--dark); font-weight: 900; line-height: 0.9; margin-bottom: 10px; letter-spacing: -2px; text-shadow: 3px 3px 0px var(--white);}
+        .infra-item:nth-child(even) h3 { color: var(--white); text-shadow: 3px 3px 0px var(--dark);}
+        .infra-item p { color: var(--dark); font-size: clamp(1rem, 1.5vw, 1.2rem); font-weight: 900; text-transform: uppercase; margin: 0;}
+        .infra-item:nth-child(even) p { color: var(--white); }
+
+        /* FOOTER */
+        footer { background: var(--phthalo-green); padding: 30px 5%; color: var(--white); border-top: 5px solid var(--dark); text-align: center;}
+        .footer-bottom { color: var(--mango); font-size: 1rem; font-weight: 900; text-transform: uppercase;}
+
+        @media (max-width: 1024px) {
+            .section-100vh { min-height: auto; padding: 100px 5% 60px; } 
+            .qh-grid, .hr-stats-grid, .op-grid, .infra-grid { grid-template-columns: repeat(2, 1fr); gap: 30px;}
+            .hr-container, .gal-two-col { grid-template-columns: 1fr; gap: 40px; }
+            .gal-two-col.reverse { grid-template-columns: 1fr; }
+            .gal-img { max-height: 300px;}
+            .gal-desc { text-align: center;}
+            .gal-desc p { border: none; padding: 0;}
+            /* Ajuste de Grid para Expansion en Tablets */
+            .formats-stack { grid-template-columns: repeat(2, 1fr); gap: 25px; }
+        }
+        
+        @keyframes mobilePulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+
+        @media (max-width: 768px) {
+            nav.nav-franchise, nav.nav-corporate { padding: 10px 5%; width: 100%; border-radius: 0; left: 0; transform: none;}
+            .hamburger { display: flex; }
+            .nav-links { position: fixed; top: 0; left: 100%; width: 100%; height: 100vh; background: var(--phthalo-green); flex-direction: column; justify-content: center; align-items: center; gap: 30px; transition: left 0.4s ease; z-index: 1001; }
+            .nav-links a { color: var(--white) !important; font-size: 1.5rem;}
+            .nav-links.active { left: 0; }
+            .qh-grid, .hr-stats-grid, .op-grid, .infra-grid { grid-template-columns: 1fr; }
+            
+            /* Ajuste de Grid para Expansion en Móviles */
+            .formats-stack { grid-template-columns: 1fr; gap: 15px; }
+            .format-card-pop { animation: mobilePulse 3s infinite !important; }
+            .format-card-pop:hover { transform: scale(1.02) rotate(0deg) translateY(-2px) !important; animation: none !important; }
+            .pop-title { font-size: 2.5rem; transform: rotate(0deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar" class="nav-corporate">
+        <a href="index.html" class="logo">
+            <img src="mbc.png" alt="Logotipo Mango BC" class="nav-logo" id="nav-logo-img"> 
+        </a>
+        <div class="hamburger" id="hamburger" role="button" aria-label="Abrir menú" tabindex="0">
+            <span style="background:var(--dark);"></span>
+            <span style="background:var(--dark);"></span>
+            <span style="background:var(--dark);"></span>
+        </div>
+        <div class="nav-links" id="nav-links">
+            <a href="index.html">Inicio</a>
+            <a href="distribuidores.html">Soy distribuidor</a>
+            <a href="emprendedores.html">Foodservice</a>
+            <a href="#presentacion" class="nav-cta" id="nav-cta-btn" style="text-decoration:none;">
+                <span id="cta-text">JOBS</span>
+            </a>
+        </div>
+    </nav>
+
+    <section class="hero-corp" id="inicio">
+        <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="mbc.png">
+            <source src="PRINCIPAL.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content-corp reveal">
+            <img src="mbc.png" alt="Mango Business Center" style="width: 90%; max-width: 400px; margin-bottom: 30px; filter: brightness(0) invert(1); opacity: 0.9;">
+            <h1>Oportunidad de Inversión <br><span>en Alimentos</span></h1>
+            <p>Conectamos infraestructura industrial de alto nivel con modelos de negocio rentables y listos para operar. Únete a la revolución de Hot Rolls y multiplica tu inversión.</p>
+            <a href="#metodologia" class="btn-corp">Descubrir Franquicia</a>
+        </div>
+    </section>
+
+    <div class="hazard-tape"></div>
+
+    <section class="que-hacemos section-100vh reveal delay-1" id="metodologia">
+        <div class="container-inner">
+            <h2 class="qh-title">Nuestra <br><span>METODOLOGÍA WOW</span></h2>
+            
+            <span class="sticker-spot stk-metodo-center script-style" style="font-size: clamp(1.2rem, 2vw, 1.8rem); color: var(--white); background: var(--dark); padding: 8px 20px; border: 3px solid var(--white); box-shadow: 6px 6px 0px var(--hr-orange);">
+                Pasión & Ingeniería 🔥
+            </span>
+
+            <div class="qh-grid">
+                <div class="qh-card">
+                    <span class="sticker-spot stk-qh-card"></span>
+                    <div class="qh-icon">1</div>
+                    <h3>Producto Estrella</h3>
+                    <p>Inspirados en los clásicos *bakes*, desarrollamos rollos horneados diseñados para el antojo impulsivo y la venta masiva.</p>
+                </div>
+                <div class="qh-card">
+                    <div class="qh-icon">2</div>
+                    <h3>Abasto Seguro</h3>
+                    <p>Fabricamos desde nuestra planta corporativa. Tú solo recibes, horneas y entregas. Cero complicaciones.</p>
+                </div>
+                <div class="qh-card">
+                    <div class="qh-icon">3</div>
+                    <h3>Marca Vibrante</h3>
+                    <p>Diseñamos un concepto visual magnético, juvenil y con una altísima retención en la mente del consumidor.</p>
+                </div>
+                <div class="qh-card">
+                    <div class="qh-icon">4</div>
+                    <h3>Rápido Retorno</h3>
+                    <p>Convertimos un producto adictivo en un negocio "llave en mano" con bajo costo operativo y alto margen de ganancia.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="explosive-section section-100vh" id="presentacion">
+        <div class="burst-bg"></div>
+        <div class="burst-vignette"></div>
+
+        <div class="explosive-content reveal">
+            <div class="explosive-logo-container">
+                <img src="hotrollssticker.png" alt="Hot Rolls" class="explosive-logo">
+            </div>
+            
+            <h2 class="explosive-title">¡EL FAST FOOD QUE ESTÁ <span class="animate-pop-text">ROMPIENDO</span> EL MERCADO!</h2>
+        </div>
+    </section>
+
+    <section class="product-gallery-section section-100vh" id="galeria">
+        <div class="container-inner gallery-container">
+            <h2 class="gal-intro-text reveal">¡SABOR EXPLOSIVO, <span class="animate-pop-text">OPERACIÓN SENCILLA!</span></h2>
+
+            <div class="gal-grid-local-wrapper">
+                <div class="gal-two-col gal-prod-local reveal delay-1">
+                    <div class="gal-img-container">
+                        <div class="gal-panel rotate-left gal-prod-cheese">
+                            <span class="sticker-spot stk-gal-queso"></span>
+                            <img src="hotrolls1.jpg" alt="Hot Rolls de Queso" class="gal-img">
+                            <div class="gal-burst-text b-t-cheese">¡RELLENO AL MÁXIMO!</div>
+                        </div>
+                    </div>
+                    <div class="gal-desc">
+                        <h3 class="comic-text-shadow">Costra Dorada</h3>
+                        <p>Pan artesanal crujiente por fuera con un corazón de queso derretido hirviendo. ¡El confort food perfecto para comer en movimiento!</p>
+                    </div>
+                </div>
+
+                <div class="gal-two-col reverse reveal delay-2">
+                    <div class="gal-desc">
+                        <h3 class="comic-text-shadow">Sabor que atrapa</h3>
+                        <p>Elevamos el concepto del *chicken bake*. Ingredientes premium, porciones generosas y un sabor diseñado para que el cliente siempre regrese.</p>
+                    </div>
+                    <div class="gal-img-container">
+                        <div class="gal-panel rotate-right gal-prod-pep">
+                            <img src="hotrolls2.jpg" alt="Hot Rolls de Pepperoni" class="gal-img">
+                            <div class="gal-burst-text b-t-pepperoni">¡VENTA POR IMPULSO!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gal-two-col reveal delay-1">
+                    <div class="gal-img-container">
+                        <div class="gal-panel rotate-left gal-local-complete">
+                            <span class="sticker-spot stk-gal-local"></span>
+                            <img src="kiosko.png" alt="Kiosko de Hot Rolls" class="gal-img">
+                            <div class="gal-burst-text b-t-kiosko">¡TU PRÓXIMO NEGOCIO!</div>
+                        </div>
+                    </div>
+                    <div class="gal-desc">
+                        <h3 class="comic-text-shadow">Formato Grab & Go</h3>
+                        <p>Módulos ultracompactos, llamativos y eficientes. Despacha en segundos, optimiza el espacio y domina las ventas rápidas y por delivery.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="hot-rolls-section section-100vh" id="hotrolls">
+        <div class="hr-marquee-wrap hr-marquee-top">
+            <div class="hr-marquee-content" aria-hidden="true">
+                <span>🔥 CRÚJELO 🔥 EL GRAB & GO DEFINITIVO 🔥 HOT ROLLS 🔥 ALTA RENTABILIDAD 🔥 CRÚJELO 🔥 EL GRAB & GO DEFINITIVO 🔥 HOT ROLLS 🔥 ALTA RENTABILIDAD</span>
+            </div>
+        </div>
+
+        <div class="container-inner hr-container">
+            <div class="hr-text reveal">
+                <img src="logo Hot rolls.png" alt="Hot Rolls" class="hr-logo-title">
+                <h3>EL REY DEL GRAB & GO</h3>
+                
+                <div class="hr-dark-box">
+                    <p>Un producto diseñado para velocidad industrial. Sin mermas, sin necesidad de chefs, sin complicaciones operativas.</p>
+                </div>
+                
+                <p class="hr-desc">Perfecto para caminar, manejar o comer en la oficina. El rollo llega pre-ensamblado, se hornea rápidamente y se entrega caliente al instante. Baja inversión, alto volumen de ventas.</p>
+                
+                <div style="margin-top: 10px;">
+                    <a href="mailto:socios@mangobc.com" class="btn-mango">QUIERO INVERTIR</a>
+                </div>
+            </div>
+            
+            <div class="hr-stats-wrapper reveal delay-1">
+                <span class="sticker-spot stk-hotrolls-impact"></span>
+                <div class="hr-spinning-badge">100%<br>RENTABLE<br>WOW</div>
+
+                <div class="hr-stats-grid">
+                    <div class="hr-stat-box box-yellow-1">
+                        <h4>&lt;3<span style="font-size: clamp(1rem, 2vw, 1.5rem);">MIN</span></h4>
+                        <p>Tiempo de servicio</p>
+                    </div>
+                    <div class="hr-stat-box box-white-1">
+                        <h4>ALTO</h4>
+                        <p>Volumen Diario</p>
+                    </div>
+                    <div class="hr-stat-box box-yellow-2">
+                        <h4>BAJO</h4>
+                        <p>Costo Operativo</p>
+                    </div>
+                    <div class="hr-stat-box box-white-2">
+                        <h4>4m²</h4>
+                        <p>Formatos desde</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="hr-operation-section section-100vh">
+        <div class="container-inner op-container">
+            <div class="reveal">
+                <h2 class="op-title">Operación a <span>Prueba de Todo</span></h2>
+                <p class="op-desc">Sistema Plug & Play. Enchufas, horneas y vendes. Simplificamos la gastronomía para maximizar tus ganancias.</p>
+            </div>
+
+            <div class="op-grid reveal delay-1">
+                <div class="op-card">
+                    <h3>Cero Barreras Espaciales</h3>
+                    <p>Nuestros equipos de horneado no requieren instalaciones complejas. <strong>Operamos sin campanas de extracción ni trampas de grasa.</strong> ¡Instala donde sea!</p>
+                </div>
+                <div class="op-card">
+                    <h3>Fast Training</h3>
+                    <p>Curva de aprendizaje mínima. Cualquier integrante de tu equipo puede operar el punto de venta con una calidad de producto 100% perfecta.</p>
+                </div>
+                <div class="op-card">
+                    <span class="sticker-spot stk-op-card"></span>
+                    <h3>Low Capex</h3>
+                    <p>Inversión inicial ultra baja en comparación con restaurantes tradicionales. Disfruta de un margen saludable y comienza a operar en tiempo récord.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="hr-expansion-section-pop" id="expansion">
+        <div class="epico-chaos-container">
+            
+            <div class="rain-drop drop-1"></div>
+            <div class="rain-drop drop-2"></div>
+            <div class="rain-drop drop-3"></div>
+            <div class="rain-drop drop-4"></div>
+            <div class="rain-drop drop-5"></div>
+            <div class="rain-drop drop-6"></div>
+            <div class="rain-drop drop-7"></div>
+            <div class="rain-drop drop-8"></div>
+            <div class="rain-drop drop-9"></div>
+            <div class="rain-drop drop-10"></div>
+
+            <div class="pop-sparkle sparkle-1"></div>
+            <div class="pop-sparkle sparkle-2"></div>
+            <div class="pop-sparkle sparkle-3"></div>
+            <div class="pop-sparkle sparkle-4"></div>
+
+            <h2 class="pop-title reveal">PLAN DE EXPANSIÓN <span class="animate-pop-text">GLOBAL</span></h2>
+            
+            <div class="meta-ticker-wrap-pop reveal delay-1">
+                <div class="meta-ticker-content-pop">
+                    <span>🔥 ALTA RENTABILIDAD 🔥 BAJA INVERSIÓN 🔥 FAST FOOD REVOLUTION 🔥 MODELOS ACCESIBLES 🔥 ALTA RENTABILIDAD 🔥 BAJA INVERSIÓN 🔥 FAST FOOD REVOLUTION 🔥 MODELOS ACCESIBLES</span>
+                </div>
+            </div>
+            
+            <div class="formats-stack reveal delay-2">
+                <div class="format-card-pop pop-kiosko">
+                    <div class="pop-card-title">KIOSKO EXPRESS</div>
+                    <div class="pop-details-ticker-wrap">
+                        <div class="pop-details-ticker-content">
+                            <span>4-8 m² | Ideal pasillos comerciales.</span>
+                            <span>4-8 m² | Ideal pasillos comerciales.</span>
+                            <span>4-8 m² | Ideal pasillos comerciales.</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="format-card-pop pop-foodcourt">
+                    <div class="pop-card-title">FOOD COURT</div>
+                    <div class="pop-details-ticker-wrap">
+                        <div class="pop-details-ticker-content">
+                            <span>15-25 m² | Alto flujo en plazas.</span>
+                            <span>15-25 m² | Alto flujo en plazas.</span>
+                            <span>15-25 m² | Alto flujo en plazas.</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="format-card-pop pop-local">
+                    <div class="pop-card-title">LOCAL CALLE</div>
+                    <div class="pop-details-ticker-wrap">
+                        <div class="pop-details-ticker-content">
+                            <span>A pie de calle | Experiencia Grab & Go.</span>
+                            <span>A pie de calle | Experiencia Grab & Go.</span>
+                            <span>A pie de calle | Experiencia Grab & Go.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="format-card-pop pop-masivos">
+                    <div class="pop-card-title">EVENTOS MASIVOS</div>
+                    <div class="pop-details-ticker-wrap">
+                        <div class="pop-details-ticker-content">
+                            <span>Estadios y Conciertos | Venta ultra rápida.</span>
+                            <span>Estadios y Conciertos | Venta ultra rápida.</span>
+                            <span>Estadios y Conciertos | Venta ultra rápida.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <section class="infra-section section-100vh reveal">
+        <div class="container-inner">
+            <h2 class="infra-title">El Respaldo <br><span>Corporativo</span></h2>
+            <p class="infra-desc">Hot Rolls no es un proyecto improvisado, es parte de un ecosistema empresarial. Mango BC garantiza solidez logística y constante I+D culinario.</p>
+            
+            <div class="infra-grid">
+                <div class="infra-item">
+                    <h3 class="counter" data-target="175000">0</h3>
+                    <p>Puntos Retail</p>
+                </div>
+                <div class="infra-item">
+                    <h3 class="counter" data-target="400">0</h3>
+                    <p>+ Rutas Activas</p>
+                </div>
+                <div class="infra-item">
+                    <h3>USA</h3>
+                    <p>Y Todo México</p>
+                </div>
+                <div class="infra-item">
+                    <span class="sticker-spot stk-infra-lab"></span>
+                    <h3>LAB</h3>
+                    <p>De Innovación</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-bottom">
+            © 2026 MANGO BUSINESS CENTER | Desarrollo de Franquicias Hot Rolls
+        </div>
+    </footer>
+
+    <script>
+        // LÓGICA DE NAVBAR CAMBIANTE AL HACER SCROLL
+        const navbar = document.getElementById('navbar');
+        const ctaText = document.getElementById('cta-text');
+        
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const heroHeight = document.getElementById('inicio').offsetHeight;
+            
+            if (scrollTop > heroHeight - 100) {
+                // ESTILO FRANQUICIA HOT ROLLS
+                navbar.classList.remove('nav-corporate');
+                navbar.classList.add('nav-franchise');
+                ctaText.innerHTML = '<img src="logo Hot rolls.png" alt="Hot Rolls" style="height: 35px; filter: drop-shadow(2px 2px 0px var(--dark));">';
+            } else {
+                // ESTILO CORPORATIVO MANGO BC
+                navbar.classList.remove('nav-franchise');
+                navbar.classList.add('nav-corporate');
+                ctaText.innerHTML = 'JOBS';
+            }
+        });
+
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
+        
+        function toggleMenu() {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            const expanded = hamburger.classList.contains('active');
+            hamburger.setAttribute('aria-expanded', expanded);
+        }
+
+        hamburger.addEventListener('click', toggleMenu);
+        hamburger.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleMenu();
+            }
+        });
+
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('active');
+                
+                if(entry.target.classList.contains('infra-section')) {
+                    const counters = document.querySelectorAll('.counter');
+                    counters.forEach(counter => {
+                        const target = +counter.getAttribute('data-target');
+                        const speed = target / 30; 
+                        const updateCount = () => {
+                            const current = +counter.innerText;
+                            if (current < target) {
+                                counter.innerText = Math.ceil(current + speed);
+                                setTimeout(updateCount, 40);
+                            } else {
+                                counter.innerText = target;
+                            }
+                        };
+                        updateCount();
+                    });
+                }
+                observer.unobserve(entry.target);
+            });
+        }, { threshold: 0.1 });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+    </script>
+</body>
+</html>
